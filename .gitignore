@@ -1,0 +1,10 @@
+.idea
+node_modules/
+/dist/
+/target
+/.infrastructure/.terraform/
+/.infrastructure/.terraform.lock.hcl
+/.infrastructure/terraform.tfstate
+/.infrastructure/terraform.tfstate.backup
+/.infrastructure/dist/deployment.zip
+/packaged.yml

@@ -1,0 +1,3 @@
+https://xml-travelgate-developer-documentation.readthedocs.io/en/latest/car/DSF/reservation.html#method-goals
+http://nfe.sefaz.am.gov.br/services2/services/NfeInutilizacao4?wsdl
+https://github.com/jibx/schema-library/blob/master/org.opentravel/_2012B/opentravel-ws/opentravel-hotel-ws-soap/src/main/resources/hotel.wsdl

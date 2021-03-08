@@ -1,0 +1,95 @@
+<definitions name="StandardListService"
+             targetNamespace="http://localhost:8888/wsdl/StandardListService.wsdl"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://localhost:8888/wsdl/StandardListService.wsdl"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/1999/XSL/Transform">
+
+    <types>
+        <schema targetNamespace="http://localhost:8888/wsdl/StandardListService.wsdl"
+                xmlns="http://www.w3.org/2000/10/XMLSchema">
+            <element name="StandardListRequest">
+                <complexType mixed="true">
+                    <sequence>
+                        <any/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="StandardListResponse">
+                <complexType>
+                    <all>
+                        <element name="standard" element="tns:Standard"/>
+                    </all>
+                </complexType>
+            </element>
+            <element id="Standard" name="Standard">
+                <complexType>
+                    <sequence>
+                        <element name="standard" type="string"/>
+                        <element name="comite" xsi:type="xsd:string"/>
+                        <element name="currency" xsi:type="xsd:string"/>
+                        <element name="file" xsi:type="xsd:string"/>
+                        <element name="identification" xsi:type="xsd:string"/>
+                        <element name="language" xsi:type="xsd:string"/>
+                        <element name="objective" xsi:type="xsd:string"/>
+                        <element name="organization" xsi:type="xsd:string"/>
+                        <element name="pages" xsi:type="xsd:integer"/>
+                        <element name="price" xsi:type="xsd:decimal"/>
+                        <element name="publication_date" xsi:type="xsd:string"/>
+                        <element name="status" xsi:type="xsd:string"/>
+                        <element name="title" xsi:type="xsd:string"/>
+                        <element name="title_global_language" xsi:type="xsd:string"/>
+                        <element name="url" xsi:type="xsd:string"/>
+                        <element name="uuid" xsi:type="xsd:string"/>
+                        <element name="validity_start" xsi:type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+
+    <message name="StandardListRequest">
+        <part name="StandardListRequest" type="tns:StandardListRequest"/>
+    </message>
+
+    <message name="StandardListResponse">
+        <part name="StandardListResponse" type="tns:StandardListResponse"/>
+    </message>
+
+    <portType name="StandardList_PortType">
+        <operation name="StandardList">
+            <input message="tns:StandardListRequest"/>
+            <output message="tns:StandardListResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="StandardList_Binding" type="tns:StandardList_PortType">
+        <soap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="standardList">
+            <soap:operation soapAction="standardList"/>
+            <input>
+                <soap:body
+                        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                        namespace="urn:examples:standardlist"
+                        use="encoded"/>
+            </input>
+
+            <output>
+                <soap:body
+                        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                        namespace="urn:examples:standardlist"
+                        use="encoded"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="StandardList_Service">
+        <documentation>WSDL File for StandardListService</documentation>
+        <port binding="tns:StandardList_Binding" name="StandardList_Port">
+            <soap:address
+                    location="http://localhost:8888/StandardList/"/>
+        </port>
+    </service>
+</definitions>
