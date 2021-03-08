@@ -88,6 +88,10 @@ export default class Server {
       res.render('services', { host: process.env.APP_HOST});
     })
 
+    this.express.get(API_ROOT + '/import', (req, res) => {
+      return res.json({app: "Import currently are not implemented"})
+    })
+
     /**
      * Exemplo de WSDL
      */
