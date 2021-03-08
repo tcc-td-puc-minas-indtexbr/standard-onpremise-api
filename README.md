@@ -4,7 +4,7 @@ Micro serviço para atender os serviços legados da IndTexBr, sistema de GPI, si
 de Logistica. Faz parte do nosso TCC do curso Especialização em Arquitetura de Software Distribuído da PUC Minas
 
 ## Features 
-- Trabalha com uma interface SOAP
+- Trabalha com uma interface SOAP e com uma interface REST
 - Fornece serviços RPC
 - Integra com a API sigo-standard (standard-manager-api).
 - Converte os dados de JSON para XML praticamente.
