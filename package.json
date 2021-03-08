@@ -1,5 +1,5 @@
 {
-  "name": "standard-facade-api",
+  "name": "standard-onpremise-api",
   "version": "1.0.0",
   "description": "Facade para suporte de sistemas legados que precisam acessar e consumir as normas",
   "main": "target/local.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tcc-td-puc-minas-indtexbr/standard-facade-api.git"
+    "url": "git+https://github.com/tcc-td-puc-minas-indtexbr/standard-onpremise-api.git"
   },
   "author": "Anderson Contreira",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tcc-td-puc-minas-indtexbr/standard-facade-api/issues"
+    "url": "https://github.com/tcc-td-puc-minas-indtexbr/standard-onpremise-api/issues"
   },
-  "homepage": "https://github.com/tcc-td-puc-minas-indtexbr/standard-facade-api#readme",
+  "homepage": "https://github.com/tcc-td-puc-minas-indtexbr/standard-onpremise-api#readme",
   "dependencies": {
     "@vendia/serverless-express": "^4.3.4",
     "aws-lambda": "^1.0.6",
