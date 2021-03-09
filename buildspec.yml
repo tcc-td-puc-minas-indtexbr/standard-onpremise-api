@@ -1,0 +1,39 @@
+version: 0.2
+env:
+  #  shell: shell-tag
+  variables:
+    S3_BUCKET: "generic-lambda-builds"
+    PROJECT_NAME: "standard-onpremise-api"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12.x
+    commands:
+      - echo Installing all requirements
+      - npm install
+  build:
+    commands:
+      - echo Buldinf project
+      - npm run build
+  post_build:
+    commands:
+    #      - echo Installing test requirements
+    #      - pip install -r ./requirements-tests.txt
+    #      - echo Running unit testes
+    #      - ./bin/tests/unit-coverage-no-report-html.sh
+    finally:
+      - echo Generating package file
+      - ./bin/tools/package.sh
+      - zip -r ./dist/deployment.zip node_modules package.json package-lock.json
+      - aws cloudformation package --template-file sam.yml --s3-bucket $S3_BUCKET --s3-prefix $PROJECT_NAME --output-template-file packaged.yml
+      - sed -i "s/\${AWS::AccountId}:role/${ACCOUNT_ID}:role/g" packaged.yml
+#reports:
+#  UnitTestsReports:
+#    files:
+#      - 'target/unit/clover.xml'
+#    file-format: 'CLOVERXML'
+artifacts:
+  files:
+    - sam.yml
+    - packaged.yml
+    - dist/deployment.zip

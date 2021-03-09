@@ -1,0 +1,17 @@
+version: "3.2"
+services:
+  standard-onpremise-api:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    privileged: true
+    ports:
+      - 8012:3000
+    networks:
+      - tcc-td-network
+    volumes:
+      - ./:/app
+
+networks:
+  tcc-td-network:
+    external: true
