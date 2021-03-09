@@ -15,6 +15,7 @@ phases:
     commands:
       - echo Buldinf project
       - npm run build
+      - npm run copyfiles
   post_build:
     commands:
     #      - echo Installing test requirements
