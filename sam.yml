@@ -411,7 +411,7 @@ Resources:
           DEBUG: 'true'
           LOG_LEVEL: info
           APP_ENV: development
-          API_HOST: 'https://indtextbr.onpremise.hagatus.com.br/standard'
+          APP_HOST: 'https://indtextbr.onpremise.hagatus.com.br/standard'
       Timeout: 120
       Tags:
         Sector: IndTexBr
