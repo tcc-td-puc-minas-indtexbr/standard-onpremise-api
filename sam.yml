@@ -256,6 +256,33 @@ Resources:
                 httpMethod: POST
                 passthroughBehavior: when_no_match
                 type: aws_proxy
+            post:
+              consumes:
+                - text/xml
+              produces:
+                - text/xml
+              requestBody:
+                content:
+                  text/xml:
+                    schema:
+                      $ref: '#/definitions/Empty'
+                description: Execução método SOAP SayHello
+                required: true
+              responses:
+                '200':
+                  schema:
+                    "$ref": "#/definitions/Empty"
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
           "/StandardList":
             options:
               consumes:
@@ -291,6 +318,33 @@ Resources:
                 - text/xml
               produces:
                 - text/xml
+              responses:
+                '200':
+                  schema:
+                    "$ref": "#/definitions/Empty"
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+            post:
+              consumes:
+                - text/xml
+              produces:
+                - text/xml
+              requestBody:
+                content:
+                  text/xml:
+                    schema:
+                      $ref: '#/definitions/Empty'
+                description: Execução método SOAP StandardList
+                required: true
               responses:
                 '200':
                   schema:

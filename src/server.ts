@@ -55,6 +55,8 @@ const defaultVars = {
 }
 
 export default class Server {
+  public static APP_NAME: string = APP_NAME
+  public static APP_VERSION: string = APP_VERSION
   public express: express.Application
   private app: Soap
 
