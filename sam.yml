@@ -206,7 +206,7 @@ Resources:
                 httpMethod: POST
                 passthroughBehavior: when_no_match
                 type: aws_proxy
-          "/SayHello":
+          "/services/SayHello":
             options:
               consumes:
                 - text/xml
@@ -283,7 +283,7 @@ Resources:
                 httpMethod: POST
                 passthroughBehavior: when_no_match
                 type: aws_proxy
-          "/StandardList":
+          "/services/StandardList":
             options:
               consumes:
                 - text/xml
