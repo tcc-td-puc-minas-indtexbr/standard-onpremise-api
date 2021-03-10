@@ -1,13 +1,13 @@
 <definitions name="StandardListService"
-             targetNamespace="http://localhost:8888/wsdl/StandardListService.wsdl"
+             targetNamespace="#{host}#{root}/wsdl/StandardListService.wsdl"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:tns="http://localhost:8888/wsdl/StandardListService.wsdl"
+             xmlns:tns="#{host}#{root}/wsdl/StandardListService.wsdl"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
              xmlns:xsi="http://www.w3.org/1999/XSL/Transform">
 
     <types>
-        <schema targetNamespace="http://localhost:8888/wsdl/StandardListService.wsdl"
+        <schema targetNamespace="#{host}#{root}/wsdl/StandardListService.wsdl"
                 xmlns="http://www.w3.org/2000/10/XMLSchema">
             <element name="StandardListRequest">
                 <complexType mixed="true">
@@ -89,7 +89,7 @@
         <documentation>WSDL File for StandardListService</documentation>
         <port binding="tns:StandardList_Binding" name="StandardList_Port">
             <soap:address
-                    location="http://localhost:8888/StandardList/"/>
+                    location="#{host}#{root}/StandardList/"/>
         </port>
     </service>
 </definitions>

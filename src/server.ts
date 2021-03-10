@@ -45,6 +45,15 @@ if (typeof (process.env.APP_HOST) === 'undefined') {
   process.env.APP_HOST = "http://localhost:8888"
 }
 
+if (typeof (process.env.API_ROOT) === 'undefined') {
+  process.env.API_ROOT = "/standard"
+}
+
+const defaultVars = {
+  host: process.env.APP_HOST,
+  root: process.env.API_ROOT
+}
+
 export default class Server {
   public express: express.Application
   private app: Soap
@@ -68,6 +77,7 @@ export default class Server {
 
   private routes(): void {
     const API_ROOT = process.env.API_ROOT || ''
+    console.log(API_ROOT)
     this.express.get(API_ROOT + '/', (req, res) => {
       const jsonBody: any = {
         app: `${APP_NAME}:${APP_VERSION}`,
@@ -85,7 +95,7 @@ export default class Server {
 
     this.express.get(API_ROOT + '/services', (req, res) => {
       res.set('Content-Type', 'text/html')
-      res.render('services', { host: process.env.APP_HOST});
+      res.render('services', defaultVars);
     })
 
     this.express.get(API_ROOT + '/import', (req, res) => {
@@ -110,6 +120,7 @@ export default class Server {
     this.express.get(API_ROOT + '/SayHello', (req, res) => {
       if (req.url.indexOf("?wsdl") > -1) {
         let xml = Server.getWsdlFile('HelloService.wsdl')
+        xml = this.applyVars(xml,defaultVars)
         res.set('Content-Type', 'application/xml')
         res.send(xml)
       } else {
@@ -138,6 +149,7 @@ export default class Server {
 
       if (req.url.indexOf("?wsdl") > -1) {
         let xml = Server.getWsdlFile('StandardListService.wsdl')
+        xml = this.applyVars(xml,defaultVars)
         res.set('Content-Type', 'application/xml')
         res.send(xml)
       } else {
@@ -151,8 +163,9 @@ export default class Server {
     })
 
     this.express.get(API_ROOT + '/wsdl/:file_name', async (req, res) => {
-      if (Server.fileExists(req.path)) {
-        let xml = Server.getWsdlFile(req.path.replace('/wsdl',''))
+      if (Server.fileExists(req.path.replace(API_ROOT, ''))) {
+        let xml = Server.getWsdlFile(req.path.replace('/wsdl','').replace(API_ROOT, ''))
+        xml = this.applyVars(xml,defaultVars)
         res.set('Content-Type', 'application/xml')
         res.send(xml)
       } else {
@@ -200,9 +213,20 @@ export default class Server {
     return false;
   }
 
+  static logRoutes(app) {
+    app._router.stack.forEach(function(r){
+      if (r.route && r.route.path){
+        console.log(r.route.stack[0].method.toUpperCase(), r.route.path)
+      }
+    })
+  }
+
   static execute() {
     const server = new Server()
     const app = server.express
+
+    Server.logRoutes(app)
+
     return app.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT}`))
   }
 
@@ -212,6 +236,8 @@ export default class Server {
   ) {
     const server = new Server()
     const app = server.express
+
+    Server.logRoutes(app)
 
     // @ts-ignore
     const serverless = serverlessExpress.createServer(app)
@@ -226,9 +252,18 @@ export default class Server {
     const server = new Server()
     const app = server.express
 
+    Server.logRoutes(app)
+
     return serverlessExpress({app})
   }
 
 
-
+  private applyVars(xml: Buffer, defaultVars: any) {
+    let xmlStr = xml.toString()
+    for (let key in defaultVars) {
+       let regex = new RegExp(`#{${key}}`, 'g')
+      xmlStr = xmlStr.replace(regex, defaultVars[key])
+    }
+    return xmlStr
+  }
 }

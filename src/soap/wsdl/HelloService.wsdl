@@ -1,8 +1,8 @@
 <definitions name="HelloService"
-             targetNamespace="http://localhost:8888/wsdl/HelloService.wsdl"
+             targetNamespace="#{host}#{root}/wsdl/HelloService.wsdl"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:tns="http://localhost:8888/wsdl/HelloService.wsdl"
+             xmlns:tns="#{host}#{root}/wsdl/HelloService.wsdl"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <message name="SayHelloRequest">
@@ -45,7 +45,7 @@
         <documentation>WSDL File for HelloService</documentation>
         <port binding="tns:Hello_Binding" name="Hello_Port">
             <soap:address
-                    location="http://localhost:8888/SayHello/"/>
+                    location="#{host}#{root}/SayHello/"/>
         </port>
     </service>
 </definitions>
