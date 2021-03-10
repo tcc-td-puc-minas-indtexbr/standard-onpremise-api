@@ -14,7 +14,7 @@
     </message>
 
     <portType name="StandardGetService_PortType">
-        <operation name="StandardGetService">
+        <operation name="standardGet">
             <input message="tns:StandardGetServiceRequest"/>
             <output message="tns:StandardGetServiceResponse"/>
         </operation>
@@ -23,7 +23,7 @@
     <binding name="StandardGetService_Binding" type="tns:StandardGetService_PortType">
         <soap:binding style="rpc"
                       transport="http://schemas.xmlsoap.org/soap/http"/>
-        <operation name="StandardGetService">
+        <operation name="standardGet">
             <soap:operation soapAction="StandardGetService"/>
             <input>
                 <soap:body
@@ -45,7 +45,7 @@
         <documentation>WSDL File for StandardGetServiceService</documentation>
         <port binding="tns:StandardGetService_Binding" name="StandardGetService_Port">
             <soap:address
-                    location="#{host}#{root}/StandardGetService"/>
+                    location="#{host}#{root}/services/StandardGetService"/>
         </port>
     </service>
 </definitions>

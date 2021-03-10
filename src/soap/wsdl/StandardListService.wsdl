@@ -58,7 +58,7 @@
     </message>
 
     <portType name="StandardList_PortType">
-        <operation name="StandardList">
+        <operation name="standardList">
             <input message="tns:StandardListRequest"/>
             <output message="tns:StandardListResponse"/>
         </operation>
@@ -89,7 +89,7 @@
         <documentation>WSDL File for StandardListService</documentation>
         <port binding="tns:StandardList_Binding" name="StandardList_Port">
             <soap:address
-                    location="#{host}#{root}/StandardList"/>
+                    location="#{host}#{root}/services/StandardList"/>
         </port>
     </service>
 </definitions>
