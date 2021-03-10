@@ -46,7 +46,7 @@ if (typeof (process.env.APP_HOST) === 'undefined') {
 }
 
 if (typeof (process.env.API_ROOT) === 'undefined') {
-  process.env.API_ROOT = "/standard"
+  process.env.API_ROOT = ""
 }
 
 const defaultVars = {
@@ -79,7 +79,6 @@ export default class Server {
 
   private routes(): void {
     const API_ROOT = process.env.API_ROOT || ''
-    console.log(API_ROOT)
     this.express.get(API_ROOT + '/', (req, res) => {
       const jsonBody: any = {
         app: `${APP_NAME}:${APP_VERSION}`,
