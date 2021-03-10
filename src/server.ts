@@ -10,6 +10,7 @@ import bodyParser from 'body-parser'
 import bodyParserXml from 'body-parser-xml'
 import HelloService from "./soap/services/hello-service";
 import StandardListService from "./soap/services/standard-list-service";
+import routes from './routes'
 // initialize
 bodyParserXml(bodyParser);
 
@@ -49,10 +50,6 @@ if (typeof (process.env.API_ROOT) === 'undefined') {
   process.env.API_ROOT = ""
 }
 
-const defaultVars = {
-  host: process.env.APP_HOST,
-  root: process.env.API_ROOT
-}
 
 export default class Server {
   public static APP_NAME: string = APP_NAME
@@ -78,106 +75,10 @@ export default class Server {
   }
 
   private routes(): void {
-    const API_ROOT = process.env.API_ROOT || ''
-    this.express.get(API_ROOT + '/', (req, res) => {
-      const jsonBody: any = {
-        app: `${APP_NAME}:${APP_VERSION}`,
-        services: `${process.env.APP_HOST}/services`
-      }
-      return res.json(jsonBody)
-    })
-    this.express.get(API_ROOT + '/ping', (req, res) => {
-      return res.json({message: 'PONG'})
-    })
-
-    this.express.get(API_ROOT + '/alive', (req, res) => {
-      return res.json({app: "I 'am alive"})
-    })
-
-    this.express.get(API_ROOT + '/services', (req, res) => {
-      res.set('Content-Type', 'text/html')
-      res.render('services', defaultVars);
-    })
-
-    this.express.get(API_ROOT + '/import', (req, res) => {
-      return res.json({app: "Import currently are not implemented"})
-    })
-
-    /**
-     * Exemplo de WSDL
-     */
-    this.express.post(API_ROOT + '/SayHello', (req, res) => {
-
-      let service = new HelloService()
-      let response = service.execute(req)
-
-      res.set('Content-Type', 'text/xml')
-      res.send(Soap.response('helloservice', response.toXml()))
-    })
-
-    /**
-     * Exemplo de WSDL
-     */
-    this.express.get(API_ROOT + '/SayHello', (req, res) => {
-      if (req.url.indexOf("?wsdl") > -1) {
-        let xml = Server.getWsdlFile('HelloService.wsdl')
-        xml = this.applyVars(xml,defaultVars)
-        res.set('Content-Type', 'application/xml')
-        res.send(xml)
-      } else {
-        res.set('status', 400)
-        res.set('Content-Type', 'text/xml')
-        res.send('<error>Bad request: REST not enabled</error>')
-      }
-    })
-
-    /**
-     * StandardList de WSDL
-     */
-    this.express.post(API_ROOT + '/StandardList', async (req, res) => {
-
-      let service = new StandardListService()
-      let response = await service.execute(req)
-
-      res.set('Content-Type', 'text/xml')
-      res.send(Soap.response('standardlist', response.toXml()))
-    })
-    /**
-     * StandardList de WSDL
-     */
-    this.express.get(API_ROOT + '/StandardList', async (req, res) => {
-
-
-      if (req.url.indexOf("?wsdl") > -1) {
-        let xml = Server.getWsdlFile('StandardListService.wsdl')
-        xml = this.applyVars(xml,defaultVars)
-        res.set('Content-Type', 'application/xml')
-        res.send(xml)
-      } else {
-
-        let service = new StandardListService()
-        let response = await service.execute(req)
-
-        res.set('Content-Type', 'text/xml')
-        res.send(Soap.response('standardlist', response.toXml()))
-      }
-    })
-
-    this.express.get(API_ROOT + '/wsdl/:file_name', async (req, res) => {
-      if (Server.fileExists(req.path.replace(API_ROOT, ''))) {
-        let xml = Server.getWsdlFile(req.path.replace('/wsdl','').replace(API_ROOT, ''))
-        xml = this.applyVars(xml,defaultVars)
-        res.set('Content-Type', 'application/xml')
-        res.send(xml)
-      } else {
-        res.set('status', 400)
-        res.set('Content-Type', 'text/xml')
-        res.send('<error>Bad request: REST not enabled</error>')
-      }
-    })
+    routes(this.express)
   }
 
-  private static getViewsPath() {
+  public static getViewsPath() {
     if (fs.existsSync(process.cwd() + `/src/soap/html`)) {
       return process.cwd() + `/src/soap/html`
     } else {
@@ -185,7 +86,7 @@ export default class Server {
     }
   }
 
-  private static getHtmlFile(service) {
+  public static getHtmlFile(service) {
     if (fs.existsSync(process.cwd() + `/src/soap/html/${service}.html`)) {
       return fs.readFileSync(process.cwd() + `/src/soap/html/${service}.html`);
     } else {
@@ -194,7 +95,7 @@ export default class Server {
 
   }
 
-  private static getWsdlFile(service) {
+  public static getWsdlFile(service) {
     if (fs.existsSync(process.cwd() + `/src/soap/wsdl/${service}`)) {
       return fs.readFileSync(process.cwd() + `/src/soap/wsdl/${service}`);
     } else {
@@ -203,20 +104,20 @@ export default class Server {
 
   }
 
-  private static fileExists(pathElement: string) {
+  public static fileExists(pathElement: string) {
     // pathElement = pathElement.replace('/wsdl/', '')
     // console.log(pathElement)
     if (fs.existsSync(process.cwd() + `/src/soap/${pathElement}`)) {
       return true
-    } else if (fs.existsSync(process.cwd() + `/soap/${pathElement}`)){
+    } else if (fs.existsSync(process.cwd() + `/soap/${pathElement}`)) {
       return true
     }
     return false;
   }
 
   static logRoutes(app) {
-    app._router.stack.forEach(function(r){
-      if (r.route && r.route.path){
+    app._router.stack.forEach(function (r) {
+      if (r.route && r.route.path) {
         console.log(r.route.stack[0].method.toUpperCase(), r.route.path)
       }
     })
@@ -259,12 +160,29 @@ export default class Server {
   }
 
 
-  private applyVars(xml: Buffer, defaultVars: any) {
+  public static applyVars(xml: any, variables: any) {
     let xmlStr = xml.toString()
-    for (let key in defaultVars) {
-       let regex = new RegExp(`#{${key}}`, 'g')
-      xmlStr = xmlStr.replace(regex, defaultVars[key])
+    if (variables) {
+      for (let key in variables) {
+        // Importante  para evitar o erro:
+        // [Object: null prototype] {}
+        // TypeError: Cannot convert object to primitive value
+        if (key == "_locals") {
+          continue
+        }
+
+        let regex = new RegExp(`#{${key}}`, 'g')
+        try {
+          if (variables.hasOwnProperty(key)) {
+            xmlStr = xmlStr.replace(regex, variables[key] || '')
+          }
+        } catch (e) {
+          console.error(e)
+        }
+
+      }
     }
+
     return xmlStr
   }
 }
