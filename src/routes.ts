@@ -22,7 +22,7 @@ export default function routes (app:Express) {
   app.get(API_ROOT + '/', (req, res) => {
     const jsonBody: any = {
       app: `${Server.APP_NAME}:${Server.APP_VERSION}`,
-      services: `${process.env.APP_HOST}/services`
+      services: `${process.env.APP_HOST}${API_ROOT}/services`
     }
     return res.json(jsonBody)
   })
