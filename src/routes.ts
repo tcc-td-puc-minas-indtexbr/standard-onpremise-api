@@ -102,6 +102,20 @@ export default function routes (app:Express) {
       res.send(Soap.response('standardlist', response.toXml()))
     }
   })
+  /**
+   * StandardList de WSDL
+   */
+  app.get(API_ROOT + '/services/StandardGet', async (req, res) => {
+    res.set('status', 400)
+    res.set('Content-Type', 'text/xml')
+    res.send('<error>Bad request: Not implemented</error>')
+  })
+
+  app.get(API_ROOT + '/services/StandardUpdateList', async (req, res) => {
+    res.set('status', 400)
+    res.set('Content-Type', 'text/xml')
+    res.send('<error>Bad request: Not implemented</error>')
+  })
 
   app.get(API_ROOT + '/wsdl/:file_name', async (req, res) => {
     if (Server.fileExists(req.path.replace(API_ROOT, ''))) {
