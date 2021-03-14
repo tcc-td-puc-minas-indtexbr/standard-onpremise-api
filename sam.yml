@@ -391,6 +391,83 @@ Resources:
                 passthroughBehavior: when_no_match
                 type: mock
             get:
+              consumes:
+                - text/xml
+              produces:
+                - text/xml
+              responses:
+                '200':
+                  schema:
+                    "$ref": "#/definitions/Empty"
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+            post:
+              consumes:
+                - text/xml
+              produces:
+                - text/xml
+              requestBody:
+                content:
+                  text/xml:
+                    schema:
+                      $ref: '#/definitions/Empty'
+                description: Execução método SOAP SayHello
+                required: true
+              responses:
+                '200':
+                  schema:
+                    "$ref": "#/definitions/Empty"
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHandler.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+          "/services/NormaGet/{norma_id}":
+            options:
+              consumes:
+                - text/xml
+              produces:
+                - text/xml
+              responses:
+                '200':
+                  headers:
+                    Access-Control-Allow-Methods:
+                      type: string
+                    Access-Control-Allow-Origin:
+                      type: string
+                    Access-Control-Allow-Headers:
+                      type: string
+                  schema:
+                    "$ref": "#/definitions/Empty"
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                requestTemplates:
+                  text/xml: '{"statusCode": 200}'
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Headers: "'Authorization,Content-Type,X-Amz-Date,X-Amz-Security-Token,X-Api-Key'"
+                      method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                    statusCode: '200'
+                passthroughBehavior: when_no_match
+                type: mock
+            get:
               parameters:
                 - in: path
                   name: norma_id
