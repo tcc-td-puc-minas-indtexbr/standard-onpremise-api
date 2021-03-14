@@ -46,7 +46,7 @@
     </types>
 
     <message name="NormaGetRequest">
-        <part name="id" type="xsd:integer"/>
+        <part name="norma_id" type="xsd:integer"/>
     </message>
 
     <message name="NormaGetResponse">

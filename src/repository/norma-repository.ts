@@ -43,13 +43,12 @@ export default class NormaRepository {
     }
 
   }
-  public async get(id) {
+  public async get(norma_id) {
     let object = null
     const list = await this.list()
-
     for (const key in list) {
       const item = list[key]
-      if (item.hasOwnProperty('norma_id') && item.norma_id == id) {
+      if (item.hasOwnProperty('norma_id') && item.norma_id == norma_id) {
         object = item
         break
       }
