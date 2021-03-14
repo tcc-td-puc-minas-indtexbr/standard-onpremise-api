@@ -1,0 +1,91 @@
+<definitions name="NormaGetService"
+             targetNamespace="#{host}#{root}/wsdl/NormaGetService.wsdl"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="#{host}#{root}/wsdl/NormaGetService.wsdl"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/1999/XSL/Transform"
+>
+
+    <types>
+        <schema targetNamespace="#{host}#{root}/wsdl/NormaGetService.wsdl"
+                xmlns="http://www.w3.org/2000/10/XMLSchema">
+            <element name="NormaGetRequest">
+                <complexType mixed="true">
+                    <sequence>
+                        <any/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="NormaGetResponse">
+                <complexType>
+                    <element name="norma" element="tns:Norma"/>
+                </complexType>
+            </element>
+            <element id="Norma" name="Norma">
+                <complexType>
+                    <sequence>
+                        <element name="norma_id" xsi:type="xsd:integer"/>
+                        <element name="codigo" xsi:type="xsd:string"/>
+                        <element name="data_publicacao" xsi:type="xsd:string"/>
+                        <element name="validade" xsi:type="xsd:string"/>
+                        <element name="titulo" xsi:type="xsd:string"/>
+                        <element name="comite" xsi:type="xsd:string"/>
+                        <element name="status" xsi:type="xsd:string"/>
+                        <element name="idioma" xsi:type="xsd:string"/>
+                        <element name="organizacao" xsi:type="xsd:string"/>
+                        <element name="preco" xsi:type="xsd:string"/>
+                        <element name="moeda" xsi:type="xsd:string"/>
+                        <element name="objetivo" xsi:type="xsd:string"/>
+                        <element name="link" xsi:type="xsd:string"/>
+                        <element name="arquivo" xsi:type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+
+    <message name="NormaGetRequest">
+        <part name="id" type="xsd:integer"/>
+    </message>
+
+    <message name="NormaGetResponse">
+        <part name="NormaGetResponse" type="tns:NormaGetResponse"/>
+    </message>
+
+    <portType name="NormaGet_PortType">
+        <operation name="normaGet">
+            <input message="tns:NormaGetRequest"/>
+            <output message="tns:NormaGetResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="NormaGet_Binding" type="tns:NormaGet_PortType">
+        <soap:binding style="rpc"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="normaGet">
+            <soap:operation soapAction="NormaGet"/>
+            <input>
+                <soap:body
+                        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                        namespace="urn:examples:helloservice"
+                        use="encoded"/>
+            </input>
+
+            <output>
+                <soap:body
+                        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                        namespace="urn:examples:helloservice"
+                        use="encoded"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="NormaGet_Service">
+        <documentation>WSDL File for NormaGetService</documentation>
+        <port binding="tns:NormaGet_Binding" name="NormaGet_Port">
+            <soap:address
+                    location="#{host}#{root}/services/NormaGet"/>
+        </port>
+    </service>
+</definitions>

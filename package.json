@@ -9,7 +9,9 @@
     "start": "sucrase-node src/local.ts",
     "lambda": "sucrase-node src/lambda-local.ts",
     "build": "sucrase ./src -d ./target --transforms typescript,imports",
-    "copyfiles": "mkdir -p ./target/soap && cp -r ./src/soap/html ./target/soap && cp -r ./src/soap/wsdl ./target/soap"
+    "localdb": "json-server --watch ./datasource/qualidade-e-seguranca.db.json  -c ./datasource/config.json",
+    "remotedb": "json-server https://services.hagatus.com.br/sigo-reader/v1/read/indtexbr/qualidade-e-seguranca.db.json -c ./datasource/config.json",
+    "copyfiles": "mkdir -p ./target/soap && cp -r ./src/soap/html ./target/soap && cp -r ./src/soap/wsdl ./target/soap && cp -r ./datasource ./target/datasource"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
+    "json-server": "^0.16.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "nodemon": "^2.0.7",
